@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: address-service 
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: address-service
+    spec:
+      containers:
+      - name: address-service
+        image: 990456062402.dkr.ecr.us-east-1.amazonaws.com/address-service:latest
+        ports:
+        - containerPort: 80
