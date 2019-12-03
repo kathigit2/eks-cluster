@@ -35,7 +35,9 @@ pipeline {
   stage('deploy to ECR') {
       steps {
         node('eks-master-node'){
-         checkout scm         
+         checkout scm  
+          sh 'aws eks --region <region> update-kubeconfig --name terraform-eks-demo'
+          sh 'kubectl apply -f config-map-aws-auth.yaml'
          sh 'kubectl apply -f deployment.yaml' 
          sh 'kubectl apply -f service.yaml' 
         }
