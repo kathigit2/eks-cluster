@@ -27,8 +27,7 @@ pipeline {
     stage('push image to ECR'){
       steps {
        withDockerRegistry(credentialsId: 'ecr:ap-south-1:docker', url: 'http://887625267599.dkr.ecr.ap-south-1.amazonaws.com/address-service') {
-          sh 'aws eks --region ap-south1 update-kubeconfig --name terraform-eks-demo'
-         sh 'docker tag address-service:latest 887625267599.dkr.ecr.ap-south-1.amazonaws.com/address-service:latest'
+          sh 'docker tag address-service:latest 887625267599.dkr.ecr.ap-south-1.amazonaws.com/address-service:latest'
           sh 'docker push 887625267599.dkr.ecr.ap-south-1.amazonaws.com/address-service:latest'
         } 
       }
@@ -36,7 +35,7 @@ pipeline {
   stage('deploy to ECR') {
       steps {
         node('eks-master-node'){
-          checkout scm         
+         checkout scm         
          sh 'kubectl apply -f deployment.yaml' 
          sh 'kubectl apply -f service.yaml' 
         }
